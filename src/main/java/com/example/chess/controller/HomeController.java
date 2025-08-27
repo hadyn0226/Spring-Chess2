@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 	
 	@GetMapping("/")
-	public String index(Model model) {
-		model.addAttribute("username", "타비");
+	public String index() {
 		return "index";
 	}
 	
