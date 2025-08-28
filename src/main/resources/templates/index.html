@@ -1,46 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Chess Demo</title>
-  <link rel="stylesheet" href="/css/chessboard2.min.css">
-  <style>
-    #board {
-      width: 400px;
-      margin: 20px auto;
-    }
-  </style>
+	<meta charset="UTF-8">
+	<title>Chess Demo</title>
+	<link rel="stylesheet" href="/css/chessboard2.min.css">
+	<style>
+		#myBoard {
+			margin: 20px auto;
+		}
+	</style>
+	<style>
+	
+	</style>
+	
 </head>
+
 <body>
-  <h1 style="text-align:center;">Chess Demo</h1>
-  <div id="board"></div>
-
-  <!-- chess.js 번들 -->
-  <script src="/js/chess.bundle.js"></script>
-  <!-- chessboard2 UI -->
-  <script src="/js/chessboard2.min.js"></script>
-
-  <script>
-    const game = new Chess(); // chess.bundle.js에서 전역에 Chess가 등록되어 있어야 함
-
-	const board = Chessboard2('board', {
-	  draggable: true,
-	  position: 'start',
-	  onDrop: (sourceObj, targetObj) => {
-	    // sourceObj와 targetObj는 객체라서 square 문자열 추출 필요
-	    const from = sourceObj.source; // chessboard2에서 제공하는 source 필드
-	    const to = sourceObj.target;   // chessboard2에서 제공하는 target 필드
-
-	    const move = game.move({
-	      from: from,
-	      to: to,
-	      promotion: 'q'
-	    });
-
-	    if (move === null) return 'snapback';
-	    console.log('현재 FEN:', game.fen());
-	  }
-	});
-  </script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<h1 style="text-align:center;">Chess Demo</h1>
+	<!-- chess.js 번들 -->
+	<script src="/js/chess.bundle.js"></script>
+	<!-- chessboard2 UI -->
+	<script src="/js/chessboard2.min.js"></script>
+	<div id="myBoard" style="width: 800px"></div>
+	<script>
+		const game = new Chess()
+		const config = {
+		  position: 'start',
+		  showNotaiotn: true
+		}
+		const board = Chessboard2('myBoard', config)
+	</script>
 </body>
+
 </html>
