@@ -1,0 +1,187 @@
+.chessboard.pov-white [data-square-coord=h1], .chessboard.pov-black [data-square-coord=a1] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h1]::after, .chessboard.pov-black [data-square-coord=a1]::after {
+  content: "1";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h2], .chessboard.pov-black [data-square-coord=a2] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h2]::after, .chessboard.pov-black [data-square-coord=a2]::after {
+  content: "2";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h3], .chessboard.pov-black [data-square-coord=a3] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h3]::after, .chessboard.pov-black [data-square-coord=a3]::after {
+  content: "3";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h4], .chessboard.pov-black [data-square-coord=a4] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h4]::after, .chessboard.pov-black [data-square-coord=a4]::after {
+  content: "4";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h5], .chessboard.pov-black [data-square-coord=a5] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h5]::after, .chessboard.pov-black [data-square-coord=a5]::after {
+  content: "5";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h6], .chessboard.pov-black [data-square-coord=a6] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h6]::after, .chessboard.pov-black [data-square-coord=a6]::after {
+  content: "6";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h7], .chessboard.pov-black [data-square-coord=a7] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h7]::after, .chessboard.pov-black [data-square-coord=a7]::after {
+  content: "7";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=h8], .chessboard.pov-black [data-square-coord=a8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h8]::after, .chessboard.pov-black [data-square-coord=a8]::after {
+  content: "8";
+  display: flex;
+  align-items: flex-start;
+  justify-content: right;
+  height: 100%;
+  width: 100%;
+  margin-right: 3px;
+}
+.chessboard.pov-white [data-square-coord=a1], .chessboard.pov-black [data-square-coord=a8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=a1]::before, .chessboard.pov-black [data-square-coord=a8]::before {
+  content: "a";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=b1], .chessboard.pov-black [data-square-coord=b8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=b1]::before, .chessboard.pov-black [data-square-coord=b8]::before {
+  content: "b";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=c1], .chessboard.pov-black [data-square-coord=c8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=c1]::before, .chessboard.pov-black [data-square-coord=c8]::before {
+  content: "c";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=d1], .chessboard.pov-black [data-square-coord=d8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=d1]::before, .chessboard.pov-black [data-square-coord=d8]::before {
+  content: "d";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=e1], .chessboard.pov-black [data-square-coord=e8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=e1]::before, .chessboard.pov-black [data-square-coord=e8]::before {
+  content: "e";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=f1], .chessboard.pov-black [data-square-coord=f8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=f1]::before, .chessboard.pov-black [data-square-coord=f8]::before {
+  content: "f";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=g1], .chessboard.pov-black [data-square-coord=g8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=g1]::before, .chessboard.pov-black [data-square-coord=g8]::before {
+  content: "g";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=h1], .chessboard.pov-black [data-square-coord=h8] {
+  display: flex;
+}
+.chessboard.pov-white [data-square-coord=h1]::before, .chessboard.pov-black [data-square-coord=h8]::before {
+  content: "h";
+  display: flex;
+  align-items: flex-end;
+  justify-content: left;
+  height: 100%;
+  margin-left: 3px;
+}
+.chessboard.pov-white [data-square-coord=h1]::before, .chessboard.pov-white [data-square-coord=h1]::after, .chessboard.pov-black [data-square-coord=a8]::before, .chessboard.pov-black [data-square-coord=a8]::after {
+  width: 50%;
+}/*# sourceMappingURL=ChessNotation.css.map */

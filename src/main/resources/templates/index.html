@@ -5,15 +5,14 @@
 	<meta charset="UTF-8">
 	<title>Chess Demo</title>
 	<link rel="stylesheet" href="/css/chessboard2.min.css">
+	<!--<link rel="stylesheet" href="/css/chessnotation.css"> -->
+	<!--<link rel="stylesheet" href="/css/chessboard-1.0.0.min.css">-->
 	<style>
 		#myBoard {
 			margin: 20px auto;
 		}
-	</style>
-	<style>
-	
-	</style>
-	
+		
+	</style>	
 </head>
 
 <body>
@@ -24,7 +23,8 @@
 	<script src="/js/chess.bundle.js"></script>
 	<!-- chessboard2 UI -->
 	<script src="/js/chessboard2.min.js"></script>
-	<div id="myBoard" style="width: 800px"></div>
+	<!--<script src="/js/chessboard-1.0.0.min.js"></script>-->
+	<div id="myBoard" class="pov-white" style="width: 800px"></div>
 	<script>
 		const game = new Chess()
 		const config = {
