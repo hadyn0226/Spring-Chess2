@@ -24,15 +24,81 @@
 	<!-- chessboard2 UI -->
 	<script src="/js/chessboard2.min.js"></script>
 	<!--<script src="/js/chessboard-1.0.0.min.js"></script>-->
-	<div id="myBoard" class="pov-white" style="width: 800px"></div>
+	<div id="myBoard" style="width:400px"></div>
+
+	<button id="addCircle1Btn" onclick="addCircleD4()">Default Circle at d4</button>
+	<button id="removeCircle1Btn" onclick="removeCircleD4()">Remove Circle using id</button>
+	<br />
+	<button id="logCirclesBtn">console.log Circles</button>
+	<button id="clearCirclesBtn">Clear Circles</button>
+
 	<script>
-		const game = new Chess()
-		const config = {
-		  orientation: 'white',
-		  position: 'start',
-		  showNotaiotn: true
+		const board = Chessboard2('myBoard', 'start')
+
+		let circle1Id = null
+		let circle2Id = null
+		let circle3Id = null
+		const circle4Id = null
+		let circle5Id = null
+
+		function addCircleD4(){
+			circle1Id = board.addCircle('d4')
+			console.log('added Circle 1 with id:', circle1Id)
 		}
-		const board = Chessboard2('myBoard', config)
+		
+		function removeCircleD4(){
+			board.removeCircle(circle1Id);
+			console.log('removed Circle 1 with id:', circle1Id)
+		}
+		  
+		
+
+		/*attachEvent('addCircle2Btn', 'click', () => {
+		  circle2Id = board.addCircle('e4', 'orange', 'large')
+		  console.log('added "small" Circle 2 with id:', circle2Id)
+		})
+
+		attachEvent('addCircle3Btn', 'click', () => {
+		  circle3Id = board.addCircle('f3', '#800080', 'small')
+		  console.log('added "small" Circle 3 with id:', circle3Id)
+		})
+
+		attachEvent('addCircle5Btn', 'click', () => {
+		  circle5Id = board.addCircle({
+		    color: 'orange',
+		    square: 'h1',
+		    opacity: 0.5,
+		    size: 1.2
+		  })
+		  console.log('added Circle 5 with id:', circle5Id)
+		})
+
+		attachEvent('removeCircleAtE4Btn', 'click', () => {
+		  // you can remove circles by the square they are on
+		  board.removeCircle('e4')
+		})
+
+		attachEvent('removeCircle3Btn', 'click', () => {
+		  // or you can remove using the circleId directly
+		  board.removeCircle(circle3Id)
+		})
+
+		attachEvent('logCirclesBtn', 'click', () => {
+		  console.log('Circles Array:')
+		  console.log(board.getCircles())
+
+		  console.log('Circles Object:')
+		  console.log(board.getCircles('object'))
+
+		  console.log('Circles Map:')
+		  console.log(board.getCircles('map'))
+
+		  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+		})
+
+		attachEvent('clearCirclesBtn', 'click', () => {
+		  board.clearCircles()
+		})*/
 	</script>
 </body>
 
