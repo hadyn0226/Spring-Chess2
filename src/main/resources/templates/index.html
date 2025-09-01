@@ -6,13 +6,11 @@
 	<title>Chess Demo</title>
 	<link rel="stylesheet" href="/css/chessboard2.min.css">
 	<link rel="stylesheet" href="/css/chessnotation.css">
-	<!--<link rel="stylesheet" href="/css/chessboard-1.0.0.min.css">-->
 	<style>
 		#myBoard {
 			margin: 20px auto;
 		}
-		
-	</style>	
+	</style>
 </head>
 
 <body>
@@ -23,82 +21,124 @@
 	<script src="/js/chess.bundle.js"></script>
 	<!-- chessboard2 UI -->
 	<script src="/js/chessboard2.min.js"></script>
-	<!--<script src="/js/chessboard-1.0.0.min.js"></script>-->
 	<div id="myBoard" style="width:400px"></div>
 
-	<button id="addCircle1Btn" onclick="addCircleD4()">Default Circle at d4</button>
-	<button id="removeCircle1Btn" onclick="removeCircleD4()">Remove Circle using id</button>
-	<br />
-	<button id="logCirclesBtn">console.log Circles</button>
-	<button id="clearCirclesBtn">Clear Circles</button>
-
 	<script>
-		const board = Chessboard2('myBoard', 'start')
-
-		let circle1Id = null
-		let circle2Id = null
-		let circle3Id = null
-		const circle4Id = null
-		let circle5Id = null
-
-		function addCircleD4(){
-			circle1Id = board.addCircle('d4')
-			console.log('added Circle 1 with id:', circle1Id)
+		const game = new Chess()
+		const boardConfig = {
+			draggable: true,
+			position: game.fen(),
+			onDragStart,
+			onDrop
+			// onSnapEnd
 		}
-		
-		function removeCircleD4(){
-			board.removeCircle(circle1Id);
-			console.log('removed Circle 1 with id:', circle1Id)
+		const board = Chessboard2('myBoard', boardConfig)
+
+		//const statusEl = byId('gameStatus')
+		//const fenEl = byId('gameFEN')
+		//const pgnEl = byId('gamePGN')
+
+		updateStatus()
+
+		function onDragStart(dragStartEvt) {
+			//console.log("dragStartEvt = ", dragStartEvt)
+			// do not pick up pieces if the game is over
+			if (game.isGameOver()) return false
+
+			// only pick up pieces for the side to move
+			if (game.turn() === 'w' && !isWhitePiece(dragStartEvt.piece)) return false
+			if (game.turn() === 'b' && !isBlackPiece(dragStartEvt.piece)) return false
+
+			// what moves are available to from this square?
+			const legalMoves = game.moves({
+				square: dragStartEvt.square,
+				verbose: true
+			})
+
+			// place Circles on the possible target squares
+			legalMoves.forEach((move) => {
+				board.addCircle(move.to)
+				//console.log("move = ", move)
+				//console.log("move.to = ", move.to)
+			})
 		}
-		  
-		
 
-		/*attachEvent('addCircle2Btn', 'click', () => {
-		  circle2Id = board.addCircle('e4', 'orange', 'large')
-		  console.log('added "small" Circle 2 with id:', circle2Id)
-		})
+		function isWhitePiece(piece) {return /^w/.test(piece)}
+		function isBlackPiece(piece) {return /^b/.test(piece)}
 
-		attachEvent('addCircle3Btn', 'click', () => {
-		  circle3Id = board.addCircle('f3', '#800080', 'small')
-		  console.log('added "small" Circle 3 with id:', circle3Id)
-		})
+		function onDrop(dropEvt) {
+			let check = false
+			//console.log("dropEvt = ", dropEvt)
+			const legalMoves = game.moves({
+				square: dropEvt.source,
+				verbose: true
+			})
+			//console.log("dropEvt.target = ", dropEvt.target)
+			//console.log("legalMoves = ", legalMoves)
+			legalMoves.forEach((move) => { // check legal move
+				//console.log("move.to = ", move.to)
+				if (dropEvt.target == move.to) {
+					//console.log("legal move!")
+					check = true
+				}
+			})
+			// see if the move is legal
+			if (check) {
+				const move = game.move({
+					from: dropEvt.source,
+					to: dropEvt.target,
+					promotion: 'q' // NOTE: always promote to a queen for example simplicity
+				})
+				board.fen(game.fen(), () => {// make the move if it is legal
+					updateStatus()
+				})
+				board.clearCircles()// remove all Circles from the board
+				//console.log(game.ascii())
+			}
+			else {
+				return 'snapback'
+			}
+		}
 
-		attachEvent('addCircle5Btn', 'click', () => {
-		  circle5Id = board.addCircle({
-		    color: 'orange',
-		    square: 'h1',
-		    opacity: 0.5,
-		    size: 1.2
-		  })
-		  console.log('added Circle 5 with id:', circle5Id)
-		})
+		// update the board position after the piece snap
+		// for castling, en passant, pawn promotion
+		// function onSnapEnd () {
+		//   board.position(game.fen())
+		// }
 
-		attachEvent('removeCircleAtE4Btn', 'click', () => {
-		  // you can remove circles by the square they are on
-		  board.removeCircle('e4')
-		})
+		// update DOM elements with the current game status
+		function updateStatus() {
+			//let statusHTML = ''
+			const whosTurn = game.turn() === 'w' ? 'White' : 'Black'
 
-		attachEvent('removeCircle3Btn', 'click', () => {
-		  // or you can remove using the circleId directly
-		  board.removeCircle(circle3Id)
-		})
+			if (!game.isGameOver()) {
+				if (game.inCheck()) { }//statusHTML = whosTurn + ' is in check! '
+				// statusHTML = statusHTML + whosTurn + ' to move.'
+			} else if (game.isCheckmate() && game.turn() === 'w') {
+				//statusHTML = 'Game over: white is in checkmate. Black wins!'
+			} else if (game.isCheckmate() && game.turn() === 'b') {
+				//statusHTML = 'Game over: black is in checkmate. White wins!'
+			} else if (game.isStalemate() && game.turn() === 'w') {
+				//statusHTML = 'Game is drawn. White is stalemated.'
+			} else if (game.isStalemate() && game.turn() === 'b') {
+				//statusHTML = 'Game is drawn. Black is stalemated.'
+			} else if (game.isThreefoldRepetition()) {
+				//statusHTML = 'Game is drawn by threefold repetition rule.'
+			} else if (game.isThreefoldRepetition()) {
+				//statusHTML = 'Game is drawn by insufficient material.'
+			} else if (game.isDraw()) {
+				//statusHTML = 'Game is drawn by fifty-move rule.'
+			}
 
-		attachEvent('logCirclesBtn', 'click', () => {
-		  console.log('Circles Array:')
-		  console.log(board.getCircles())
+			//statusEl.innerHTML = statusHTML
+			//fenEl.innerHTML = game.fen()
+			// pgnEl.innerHTML = game.pgn()
+		}
 
-		  console.log('Circles Object:')
-		  console.log(board.getCircles('object'))
+		function byId(id) {
+			return document.getElementById(id)
+		}
 
-		  console.log('Circles Map:')
-		  console.log(board.getCircles('map'))
-
-		  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-		})
-
-		attachEvent('clearCirclesBtn', 'click', () => {
-		  board.clearCircles()
-		})*/
 	</script>
 </body>
 
