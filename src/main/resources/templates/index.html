@@ -24,12 +24,25 @@
 	<div id="myBoard" style="width:400px"></div>
 
 	<script>
+		let playerColor = false;
+		let orient = 'white';
+		let myBoard = document.getElementById('myBoard');
+		let promotionLine = 0;
+		if(playerColor){
+			myBoard.className = 'pov-white';
+			promotionLine = 8;
+		}else{
+			myBoard.className = 'pov-black';
+			orient = 'black';
+			promotionLine = 1;
+		}
 		const game = new Chess()
 		const boardConfig = {
 			draggable: true,
 			position: game.fen(),
 			onDragStart,
-			onDrop
+			onDrop,
+			orientation: orient
 			// onSnapEnd
 		}
 		const board = Chessboard2('myBoard', boardConfig)
@@ -68,7 +81,8 @@
 
 		function onDrop(dropEvt) {
 			let check = false
-			//console.log("dropEvt = ", dropEvt)
+			let promotion = 'q'
+			console.log("dropEvt = ", dropEvt)
 			const legalMoves = game.moves({
 				square: dropEvt.source,
 				verbose: true
@@ -84,6 +98,11 @@
 			})
 			// see if the move is legal
 			if (check) {
+				console.log("dropEvt.target = ", dropEvt.target);
+				console.log("promotionLine = ", promotionLine);
+				if(dropEvt.target.endsWith(promotionLine) && dropEvt.piece.endsWith('P')){
+					console.log("ppp!");
+				}
 				const move = game.move({
 					from: dropEvt.source,
 					to: dropEvt.target,
@@ -92,12 +111,13 @@
 				board.fen(game.fen(), () => {// make the move if it is legal
 					updateStatus()
 				})
-				board.clearCircles()// remove all Circles from the board
 				//console.log(game.ascii())
 			}
 			else {
+				board.clearCircles();
 				return 'snapback'
 			}
+			board.clearCircles()// remove all Circles from the board
 		}
 
 		// update the board position after the piece snap
