@@ -22,16 +22,29 @@
 	<!-- chessboard2 UI -->
 	<script src="/js/chessboard2.min.js"></script>
 	<div id="myBoard" style="width:400px"></div>
+	<div>
+		<table id="pTable">
+			<tr>
+				<td><button onclick="setPromotion('q')">Q</button></td>
+				<td><button onclick="setPromotion('r')">R</button></td>
+				<td><button onclick="setPromotion('b')">B</button></td>
+				<td><button onclick="setPromotion('n')">K</button></td>
+			</tr>
+		</table>
+	</div>
 
 	<script>
 		let playerColor = false;
 		let orient = 'white';
 		let myBoard = document.getElementById('myBoard');
 		let promotionLine = 0;
-		if(playerColor){
+		let promotionTarget = 'q';
+		let proCheck = false;
+		let tmpDrop;
+		if (playerColor) {
 			myBoard.className = 'pov-white';
 			promotionLine = 8;
-		}else{
+		} else {
 			myBoard.className = 'pov-black';
 			orient = 'black';
 			promotionLine = 1;
@@ -62,6 +75,9 @@
 			if (game.turn() === 'w' && !isWhitePiece(dragStartEvt.piece)) return false
 			if (game.turn() === 'b' && !isBlackPiece(dragStartEvt.piece)) return false
 
+			//check promotion
+			if (proCheck) return false;
+
 			// what moves are available to from this square?
 			const legalMoves = game.moves({
 				square: dragStartEvt.square,
@@ -78,6 +94,18 @@
 
 		function isWhitePiece(piece) {return /^w/.test(piece)}
 		function isBlackPiece(piece) {return /^b/.test(piece)}
+		function setPromotion(value) {
+			console.log('value = ', value);
+			const move = game.move({
+				from: tmpDrop.source,
+				to: tmpDrop.target,
+				promotion: value // NOTE: always promote to a queen for example simplicity
+			})
+			board.fen(game.fen(), () => {// make the move if it is legal
+				updateStatus()
+			})
+			proCheck = false;
+		}
 
 		function onDrop(dropEvt) {
 			let check = false
@@ -100,17 +128,20 @@
 			if (check) {
 				console.log("dropEvt.target = ", dropEvt.target);
 				console.log("promotionLine = ", promotionLine);
-				if(dropEvt.target.endsWith(promotionLine) && dropEvt.piece.endsWith('P')){
+				if (dropEvt.target.endsWith(promotionLine) && dropEvt.piece.endsWith('P')) {
 					console.log("ppp!");
+					prokCheck = true;
+					tmpDrop = dropEvt;
+				} else {
+					const move = game.move({
+						from: dropEvt.source,
+						to: dropEvt.target,
+					})
+					board.fen(game.fen(), () => {// make the move if it is legal
+						updateStatus()
+					})
 				}
-				const move = game.move({
-					from: dropEvt.source,
-					to: dropEvt.target,
-					promotion: 'q' // NOTE: always promote to a queen for example simplicity
-				})
-				board.fen(game.fen(), () => {// make the move if it is legal
-					updateStatus()
-				})
+
 				//console.log(game.ascii())
 			}
 			else {
