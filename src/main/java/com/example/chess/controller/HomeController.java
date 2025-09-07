@@ -13,4 +13,9 @@ public class HomeController {
 		return "index";
 	}
 	
+	@GetMapping("/websocket")
+	public String webSocket() {
+		return "websocket";
+	}
+	
 }
