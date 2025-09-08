@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Spring Boot + Ajax 예제</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+	<h2>Ajax 요청 테스트</h2>
+	<button id="btn">서버에 요청 보내기</button>
+	<p id="result"></p>
+
+	<script>
+		$("#btn").click(function () {
+			$.ajax({
+				url: "/ajax/test",
+				type: "GET",
+				success: function (data) {
+					$("#result").text(data.msg);
+				},
+				error: function (xhr, status, error) {
+					$("#result").text("에러 발생: " + error);
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

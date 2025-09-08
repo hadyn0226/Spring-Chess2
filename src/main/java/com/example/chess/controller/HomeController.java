@@ -18,4 +18,9 @@ public class HomeController {
 		return "websocket";
 	}
 	
+	@GetMapping("/ajaxtest")
+	public String ajaxtest(){
+		return "ajaxtest";
+	}
+	
 }
