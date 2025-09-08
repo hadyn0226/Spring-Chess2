@@ -8,23 +8,30 @@
 </head>
 
 <body>
-	<h1>WebSocket Demo</h1>
+	<h1>1:1 Chat Demo</h1>
+	<input id="to" placeholder="상대 ID">
+	<input id="msg" placeholder="메시지">
 	<button onclick="sendMessage()">Send</button>
 	<div id="output"></div>
 
 	<script>
-		let socket = new WebSocket("ws://localhost:8080/chess");
+		// 브라우저에서 URL 쿼리로 userId 설정 (예: ?userId=alice)
+		const params = new URLSearchParams(window.location.search);
+		const userId = params.get("userId");
 
-		socket.onopen = function () {
-			console.log("웹소켓 연결됨!");
-		};
+		let socket = new WebSocket("ws://localhost:8080/chat?userId=" + userId);
 
-		socket.onmessage = function (event) {
-			document.getElementById("output").innerText += "\n서버 응답: " + event.data;
+		socket.onopen = () => console.log("연결됨: " + userId);
+
+		socket.onmessage = (event) => {
+			document.getElementById("output").innerText += "\n" + event.data;
 		};
 
 		function sendMessage() {
-			socket.send("안녕 서버!");
+			const to = document.getElementById("to").value;
+			const msg = document.getElementById("msg").value;
+			const json = JSON.stringify({to: to, msg: msg});
+			socket.send(json);
 		}
 	</script>
 </body>
