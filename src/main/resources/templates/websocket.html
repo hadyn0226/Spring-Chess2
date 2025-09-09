@@ -5,35 +5,49 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>WebSocket</title>
+	<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 </head>
 
 <body>
-	<h1>1:1 Chat Demo</h1>
-	<input id="to" placeholder="상대 ID">
-	<input id="msg" placeholder="메시지">
-	<button onclick="sendMessage()">Send</button>
-	<div id="output"></div>
+    <h2>Chat Example</h2>
+    <input type="text" id="from" placeholder="이름 입력"><br>
+    <input type="text" id="text" placeholder="메시지 입력">
+    <button onclick="sendMessage()">보내기</button>
+    <ul id="messages"></ul>
 
-	<script>
-		// 브라우저에서 URL 쿼리로 userId 설정 (예: ?userId=alice)
-		const params = new URLSearchParams(window.location.search);
-		const userId = params.get("userId");
+    <script>
+		var client = new StompJs.Client({
+		      webSocketFactory: () => new SockJS("/ws-chat"),
+		      onConnect: function (frame) {
+		          console.log('Connected: ' + frame);
+		          client.subscribe("/topic/messages", function (message) {
+		              console.log("Received:", message.body);
+					  showMessage(message);
+		          });
+		      }
+		  });
 
-		let socket = new WebSocket("ws://localhost:8080/chat?userId=" + userId);
+		  client.activate();
 
-		socket.onopen = () => console.log("연결됨: " + userId);
+        function sendMessage() {
+            var from = document.getElementById('from').value;
+            var text = document.getElementById('text').value;
+			client.publish({
+			         destination: "/app/sendMessage",
+			         body: JSON.stringify({to: from, msg: text})
+			     });
+        }
 
-		socket.onmessage = (event) => {
-			document.getElementById("output").innerText += "\n" + event.data;
-		};
+        function showMessage(message) {
+			let chatText = JSON.parse(message.body);
+            var li = document.createElement('li');
+            li.innerText = chatText.to + ": " + chatText.msg;
+            document.getElementById('messages').appendChild(li);
+        }
 
-		function sendMessage() {
-			const to = document.getElementById("to").value;
-			const msg = document.getElementById("msg").value;
-			const json = JSON.stringify({to: to, msg: msg});
-			socket.send(json);
-		}
-	</script>
+        
+    </script>
 </body>
 
 </html>

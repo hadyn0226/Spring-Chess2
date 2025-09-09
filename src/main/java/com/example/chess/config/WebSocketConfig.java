@@ -1,22 +1,26 @@
 package com.example.chess.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-
-import com.example.chess.handler.ChatHandler;
-import com.example.chess.handler.SimpleTextHandler;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+@EnableWebSocketMessageBroker
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer  {
 
-	@Override
-	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		// TODO Auto-generated method stub
-		//registry.addHandler(new SimpleTextHandler(), "/chess").setAllowedOrigins("*");
-		registry.addHandler(new ChatHandler(), "/chat").setAllowedOrigins("*");
+	
+	public void configureMessageBroker(MessageBrokerRegistry config) {
+		// 메시지 브로커 설정 (/topic 은 구독용, /queue 개인용)
+        config.enableSimpleBroker("/topic");
+        // 메시지 보낼 때 prefix
+        config.setApplicationDestinationPrefixes("/app");
 	}
-
+	
+	 public void registerStompEndpoints(StompEndpointRegistry registry) {
+	        // 클라이언트가 연결할 WebSocket endpoint
+	        registry.addEndpoint("/ws-chat").setAllowedOriginPatterns("*").withSockJS();
+	    }
+	
 }
