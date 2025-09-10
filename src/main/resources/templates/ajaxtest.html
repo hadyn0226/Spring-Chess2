@@ -16,12 +16,12 @@
 		$("#btn").click(function () {
 			$.ajax({
 				url: "/ajax/test",
-				type: "GET",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify({userId: "user123"}), // 임시 userId
+
 				success: function (data) {
 					$("#result").text(data.msg);
-				},
-				error: function (xhr, status, error) {
-					$("#result").text("에러 발생: " + error);
 				}
 			});
 		});

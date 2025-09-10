@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Chess Room</title>
+</head>
+
+<body>
+	<h1>게임 ID: <span th:text="${gameId}"></span></h1>
+	<p>내 색깔: <span th:text="${playerColor}"></span></p>
+
+	<script>
+		// JavaScript에서 사용할 수도 있음
+		const gameId = /*[[${gameId}]]*/ 'defaultGameId';
+		const playerColor = /*[[${playerColor}]]*/ 'white';
+		console.log(gameId, playerColor);
+	</script>
+</body>
+
+</html>

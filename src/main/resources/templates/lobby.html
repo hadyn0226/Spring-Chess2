@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chess Lobby</title>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+	<button id="matchBtn">Chess play</button>
+	<script>
+	$("#matchBtn").click(function() {
+	    $.ajax({
+	        url: "/ajax/match",
+	        type: "POST",
+	        contentType: "application/json",
+	        data: JSON.stringify({ userId: "user" + Math.floor(Math.random() * 100) }), // 임시 userId
+	        success: function(res) {
+	            if (res.status === "WAIT") {
+	                alert("상대를 기다리는 중...");
+	            } else if (res.status === "MATCHED") {
+	                window.location.href = "/game/" + res.gameId;
+	            }
+	        }
+	    });
+	});
+	</script>
+</body>
+
+</html>
