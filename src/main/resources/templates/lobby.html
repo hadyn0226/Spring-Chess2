@@ -7,26 +7,40 @@
 	<title>Chess Lobby</title>
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 </head>
 
 <body>
 	<button id="matchBtn">Chess play</button>
 	<script>
-	$("#matchBtn").click(function() {
-	    $.ajax({
-	        url: "/ajax/match",
-	        type: "POST",
-	        contentType: "application/json",
-	        data: JSON.stringify({ userId: "user" + Math.floor(Math.random() * 100) }), // 임시 userId
-	        success: function(res) {
-	            if (res.status === "WAIT") {
-	                alert("상대를 기다리는 중...");
-	            } else if (res.status === "MATCHED") {
-	                window.location.href = "/game/" + res.gameId;
-	            }
-	        }
-	    });
-	});
+		var userId = "user" + Math.floor(Math.random() * 100);
+		var client = new StompJs.Client({
+			webSocketFactory: () => new SockJS("/ws-chat"),
+			onConnect: function (frame) {
+				console.log('Connected: ' + frame);
+				client.subscribe("/topic/match/" + userId, function (message) {
+					console.log("Received:", message.body);
+				});
+			}
+		});
+
+		client.activate();
+
+		$("#matchBtn").click(function () {
+			sendMatchRequest();
+		});
+
+		function sendMatchRequest() {
+			client.publish({
+				destination: "/app/match",
+				body: JSON.stringify({userId: userId})
+			});
+		}
+
+		function showMessage(message) {
+			console.log(message.body)
+		}
 	</script>
 </body>
 
