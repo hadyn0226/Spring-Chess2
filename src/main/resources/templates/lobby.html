@@ -21,6 +21,12 @@
 				console.log('Connected: ' + frame);
 				client.subscribe("/topic/match/" + userId, function (message) {
 					console.log("Received:", message.body);
+					let response = JSON.parse(message.body);
+					console.log(response);
+					if(response.status == "MATCHED"){
+						redirectToGamePage(response);
+					}
+					
 				});
 			}
 		});
@@ -38,8 +44,8 @@
 			});
 		}
 
-		function showMessage(message) {
-			console.log(message.body)
+		function redirectToGamePage(message) {
+			window.location.href = "/game/" + message.gameId;
 		}
 	</script>
 </body>
