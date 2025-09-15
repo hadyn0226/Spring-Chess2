@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dbtest</title>
+</head>
+<body>
+	<h1>TTABLE 데이터 목록</h1>
+	    <table border="1">
+	        <thead>
+	            <tr>
+	                <th>No</th>
+	                <th>Name</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <!-- ttables 리스트 반복 -->
+	            <tr th:each="t : ${ttables}">
+	                <td th:text="${t.ttableNo}"></td>
+	                <td th:text="${t.ttableName}"></td>
+	            </tr>
+	        </tbody>
+	    </table>
+</body>
+</html>

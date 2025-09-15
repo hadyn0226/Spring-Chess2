@@ -32,7 +32,7 @@ public class ChessController {
 	
 	@MessageMapping("/match")
 	public void match(MatchRequest request) {
-		log.info("Matching Request!");
+		//log.info("Matching Request!");
 		MatchResponse response = matchService.addToQueue(request.getUserId());
 		if("MATCHED".equals(response.getStatus())) {
 			for(String userId : matchService.getUserIds(response.getGameId())) {

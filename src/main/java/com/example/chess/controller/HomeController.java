@@ -5,8 +5,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.chess.dto.TTable;
+import com.example.chess.service.TTableService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
+	
+	private final TTableService tTableService;
 
 	@GetMapping("/")
 	public String index() {
@@ -37,6 +45,12 @@ public class HomeController {
 		model.addAttribute("playerColor", playerColor);
 
 		return "game";
+	}
+	
+	@GetMapping("/dbtest")
+	public String dbtest(Model model) {
+		model.addAttribute("ttables",tTableService.finaAll());
+		return "dbtest";
 	}
 
 }
