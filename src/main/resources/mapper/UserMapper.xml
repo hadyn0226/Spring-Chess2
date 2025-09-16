@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.chess.mapper.UserMapper">
+
+    <insert id="insertUser" parameterType="com.example.chess.dto.UserDto">
+        INSERT INTO USERS (PK_USER, USER_ID, PASSWORD, NICKNAME, EMAIL, CREATED_AT)
+        VALUES (USERS_SEQ.NEXTVAL, #{userId}, #{password}, #{nickname}, #{email}, SYSTIMESTAMP)
+    </insert>
+
+    <select id="selectUserById" resultType="com.example.chess.dto.UserDto">
+        SELECT * FROM USERS WHERE PK_USER = #{pkUser}
+    </select>
+	
+	<select id="existsByUserId" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END
+        FROM USERS 
+        WHERE USER_ID = #{userId}
+    </select>
+	
+    <select id="selectUserByLoginId" resultType="com.example.chess.dto.UserDto">
+        SELECT * FROM USERS WHERE USER_ID = #{userId}
+    </select>
+    
+    <select id="selectUserByEmail" resultType="com.example.chess.dto.UserDto">
+        SELECT * FROM USERS WHERE EMAIL = #{email}
+    </select>
+
+    <select id="selectAllUsers" resultType="com.example.chess.dto.UserDto">
+        SELECT * FROM USERS ORDER BY CREATED_AT DESC
+    </select>
+
+    <update id="updateUser" parameterType="com.example.chess.dto.UserDto">
+        UPDATE USERS
+        SET PASSWORD = #{password}, NICKNAME = #{nickname}, EMAIL = #{email}
+        WHERE PK_USER = #{pkUser}
+    </update>
+    
+    <update id="updateUserPassword" parameterType="String">
+        UPDATE USERS
+        SET PASSWORD = #{password}
+        WHERE PK_USER = #{pkUser}
+    </update>
+    
+    <update id="updateUserPassword" parameterType="String">
+        UPDATE USERS
+        SET NICKNAME = #{nickname}
+        WHERE PK_USER = #{pkUser}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM USERS WHERE PK_USER = #{pkUser}
+    </delete>
+    
+
+</mapper>
